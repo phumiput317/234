@@ -1,0 +1,85 @@
+class MenuItem {
+  String name;
+  String price;
+  String category;
+
+  MenuItem({required this.name, required this.price, required this.category});
+
+  @override
+  String toString() {
+    return 'MenuItem{name: $name, price: $price, category: $category}';
+  }
+}
+
+class Order {
+  String orderId;
+  int tableNumber;
+  List<MenuItem> items;
+  bool isCompleted;
+
+  Order({required this.orderId, required this.tableNumber, this.items = const [], this.isCompleted = false});
+
+  void addItem(MenuItem item) {
+    items.add(item);
+  }
+
+  void removeItem(MenuItem item) {
+    items.remove(item);
+  }
+
+  void completeOrder() {
+    isCompleted = true;
+  }
+
+  @override
+  String toString() {
+    return 'Order{orderId: $orderId, tableNumber: $tableNumber, items: $items, isCompleted: $isCompleted}';
+  }
+}
+
+class Restaurant {
+  List<MenuItem> menu;
+  List<Order> orders;
+  Map<int, String> tables;
+
+  Restaurant({this.menu = const [], this.orders = const [], this.tables = const {}});
+
+  void addMenuItem(MenuItem item) {
+    menu.add(item);
+  }
+
+  void removeMenuItem(MenuItem item) {
+    menu.remove(item);
+  }
+
+  void placeOrder(Order order) {
+    orders.add(order);
+  }
+
+  void completeOrder(String orderId) {
+    for (var order in orders) {
+      if (order.orderId == orderId) {
+        order.completeOrder();
+        break;
+      }
+    }
+  }
+
+  MenuItem? getMenuItem(String name) {
+    for (var item in menu) {
+      if (item.name == name) {
+        return item;
+      }
+    }
+    return null;
+  }
+
+  Order? getOrder(String orderId) {
+    for (var order in orders) {
+      if (order.orderId == orderId) {
+        return order;
+      }
+    }
+    return null;
+  }
+}
